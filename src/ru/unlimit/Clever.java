@@ -6,8 +6,20 @@ import java.util.HashSet;
 
 public class Clever {
 	String main_text = "";
+	boolean name = false;
+	boolean number = false;
+	boolean structure = false;
 	
-	public String getReport(String text, boolean names, boolean numbers){
+	public String getReport(String text, boolean names, boolean numbers, boolean structure){
+		/*
+		 * Получаем текст и логические параметры: Имя, Чило, Структура текста
+		 * В зависимости от состояния логического параметра(истина/ложь) происходит вызов
+		 * одноименног метода
+		 */
+		
+		this.name = names;
+		this.number = numbers;
+		this.structure = structure;
 		
 		setText(text);
 		String html_code = build_html();
@@ -21,9 +33,9 @@ public class Clever {
 				"<br>количество слов: " + words_volume(main_text) + 
 				"<br>словарный запас: " + getVocabulary() + 
 				"<br>количество предложений: " + getSatz() + 
-				"<br>Имена: " + getNames() +  
-				"<br>Числа: " + getNumbers() + 
-				"<br>Структура текста: " + getStructure();
+				"<br>Имена: " + getNames(name) +  
+				"<br>Числа: " + getNumbers(number) + 
+				"<br>Структура текста: " + getStructure(structure);
 		
 		return html;
 	}
@@ -74,7 +86,7 @@ public class Clever {
 		return point_count;
 	}
 	
-	public String getNames(){
+	public String getNames(boolean flag){
 		
 		/*
 		 * Метод names() извлекает из текста Имена следующим образом:
@@ -88,6 +100,8 @@ public class Clever {
 		 * В силу специфики алгоритма в начало и конец текста намерено добавлене "абракадабра",
 		 * пока это решение под вопросом
 		 */
+		
+		if(flag != true) return "name is false";
 		
 		String kostil = "dfjhdjfhjd. " + main_text + " dfhskdfhksdfkjsdfj";
 		char[] array_all_symbol = kostil.toCharArray();
@@ -121,7 +135,7 @@ public class Clever {
 		return result;
 	}
 	
-public String getNumbers(){
+public String getNumbers(boolean flag){
 	
 	/*
 	 * Метод number() извлекает из текста числа следующим образом:
@@ -130,6 +144,9 @@ public String getNumbers(){
 	 * В массиве символов осуществляется поиск чисел
 	 * Если находим число, извлекаем все слово, и переходим к следующему слову
 	 */
+	
+	if(flag != true) return "number is false";
+	
 	String[] list_all_words = main_text.split(" ");
 	String word_of_list_all_words = "";
 	char[] list_of_sybol;
@@ -159,7 +176,7 @@ public String getNumbers(){
 		return result;
 	}
 
-public String getStructure(){
+public String getStructure(boolean flag){
 	
 	/*
 	 * Метод text_structure() выявляет структуру текста следующим образом:
@@ -172,6 +189,9 @@ public String getStructure(){
 	 * большим числом, далее запись этой строки с самым большим числом в новый массив sorted_list,
 	 * и удаление отсортированной записи из map_of_heap
 	 * */
+	
+	if(flag != true) return "structure is false";
+	
 	
 	String text = getClear_text(main_text);
 	String[] list_all_words = text.split(" ");
